@@ -83,8 +83,17 @@ public class GameBoard {
     }
 
     public void addPoint(double x, double y, double t) {
-        if (GameUtils.distP(new Point(x, y), ball.c) > ball.r + GameUtils.w + GameUtils.EPS)
-        lastTrace.addPoint(x, y, t + TIMEOUT);
+        Point p = new Point(x, y);
+        if (GameUtils.distP(new Point(x, y), ball.c) > ball.r + GameUtils.w + GameUtils.EPS) {
+            if (lastTrace.points.size() == 0) {
+                lastTrace.addPoint(x, y, t + TIMEOUT);
+            } else {
+                if (GameUtils.getDist(lastTrace.points.get(lastTrace.points.size() - 1).point, p, ball.c) < ball.r) {
+                    lastTrace.clear();
+                }
+                lastTrace.addPoint(x, y, t + TIMEOUT);
+            }
+        }
         prevTime = t;/*
         if ((ball.c.x < 0) || (ball.c.y < 0) || (ball.c.x > sizeX) || (ball.c.y > sizeY)) {
             ball.c = new Point(centerX, centerY);

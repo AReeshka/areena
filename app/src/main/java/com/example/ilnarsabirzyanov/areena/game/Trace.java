@@ -136,5 +136,10 @@ public class Trace {
         return ball;
     }
 
+    void clear() {
+        points.clear();
+        length = 0;
+    }
+
 
 }
