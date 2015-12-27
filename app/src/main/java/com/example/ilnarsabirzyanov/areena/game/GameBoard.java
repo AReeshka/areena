@@ -88,7 +88,7 @@ public class GameBoard {
             if (lastTrace.points.size() == 0) {
                 lastTrace.addPoint(x, y, t + TIMEOUT);
             } else {
-                if (GameUtils.getDist(lastTrace.points.get(lastTrace.points.size() - 1).point, p, ball.c) < ball.r) {
+                if (GameUtils.getDist(lastTrace.points.get(lastTrace.points.size() - 1).point, p, ball.c) < ball.r + GameUtils.w) {
                     lastTrace.clear();
                 }
                 lastTrace.addPoint(x, y, t + TIMEOUT);
