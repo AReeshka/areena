@@ -20,5 +20,18 @@ public class GameActivity extends AppCompatActivity {
         int t = intent.getIntExtra("difficulty", 0);
         view.difficulty = Difficulty.values()[t];
         int tt =0;
+        BackgroundMusic.play();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BackgroundMusic.play();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BackgroundMusic.pause();
     }
 }

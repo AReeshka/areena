@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton playButton, easyButton, mediumButton, hardButton, soundButton;
     ProgressBar progressBar;
-    MediaPlayer mp;
+    BackgroundMusic music;
+
     enum Difficulty {
         EASY, MEDIUM, HARD
     }
@@ -82,29 +83,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         File f = new File(getFilesDir(), "background.mp3");
-        if (f.exists()) {
-            mp = MediaPlayer.create(this, Uri.fromFile(f));
-            mp.setLooping(true);
-            mp.start();
-        }
+        BackgroundMusic.BackgroundMusic(this, f);
+        BackgroundMusic.play();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-        if (mp != null) {
-            mp.start();
-        }
+        BackgroundMusic.play();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-        if (mp != null) {
-            mp.pause();
-        }
+        BackgroundMusic.pause();
     }
 
     protected void changeDifficulty(int id) {
