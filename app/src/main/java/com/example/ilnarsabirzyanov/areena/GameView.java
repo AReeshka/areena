@@ -59,14 +59,15 @@ public class GameView extends View {
     }
 
     // here you can invoke some methods connected with ending of game
-    public void gameOver(double time, int score) {
+    public void gameOver(int time, int score) {
         time /= GameUtils.FPS;
+        score = (time + score)*(difficulty.ordinal() + 1);
         final Activity activity = (Activity)getContext();
         final TextView result = (TextView)activity.findViewById(R.id.textView);
         final ImageButton replay = (ImageButton)activity.findViewById(R.id.replayButton);
         final ImageButton menu = (ImageButton)activity.findViewById(R.id.menuButton);
 
-        result.setText("Your result: " + Double.valueOf(time).intValue());
+        result.setText("Your result: " + score);
         result.setVisibility(VISIBLE);
         replay.setVisibility(VISIBLE);
         menu.setVisibility(VISIBLE);
