@@ -46,6 +46,9 @@ public class Point {
         return x*x + y*y;
     }
     double cos2(Point p) {
+        if ((this.mod2() == 0) ||(p.mod2() == 0)) {
+            return 0;
+        }
         double tmp = scal(p);
         tmp *= tmp;
         tmp /= (mod2()*p.mod2());
