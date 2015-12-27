@@ -21,10 +21,11 @@
         android:layout_width="100dp"
         android:layout_height="70dp"
         android:id="@+id/easyButton"
-        android:layout_below="@+id/playButton"
-        android:layout_toStartOf="@+id/mediumButton"
         android:background="@drawable/easy"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:layout_alignTop="@+id/mediumButton"
+        android:layout_toStartOf="@+id/mediumButton"
+        android:layout_marginRight="20dp" />
 
     <ImageButton
         android:layout_width="100dp"
@@ -34,7 +35,8 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/medium2"
         android:baselineAlignBottom="false"
-        android:contextClickable="false" />
+        android:contextClickable="false"
+        android:layout_marginTop="20dp" />
 
     <ImageButton
         android:layout_width="100dp"
@@ -43,7 +45,8 @@
         android:layout_alignBottom="@+id/mediumButton"
         android:layout_toEndOf="@+id/mediumButton"
         android:background="@drawable/hard2"
-        android:layout_alignParentEnd="false" />
+        android:layout_alignParentEnd="false"
+        android:layout_marginLeft="20dp" />
 
     <ImageButton
         android:layout_width="100dp"
@@ -51,5 +54,6 @@
         android:id="@+id/soundButton"
         android:layout_below="@+id/mediumButton"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/sound" />
+        android:background="@drawable/sound"
+        android:layout_marginTop="20dp" />
 </RelativeLayout>
