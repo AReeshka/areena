@@ -12,6 +12,7 @@ import com.example.ilnarsabirzyanov.areena.GameView;
  * Created by Cawa on 22.12.2015.
  */
 public class GameUtils {
+    public static int RAND_FRAME_W = 60;
     public static double EPS = 0.000001;
     public static double FPS = 60;
     public static double w = 0;

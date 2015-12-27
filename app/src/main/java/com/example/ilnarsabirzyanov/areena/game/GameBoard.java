@@ -33,6 +33,8 @@ public class GameBoard {
         balls = new Vector<>();
     }
 
+
+
     public void setCoord(int x, int y) {
         sizeX = x;
         sizeY = y;
@@ -111,6 +113,7 @@ public class GameBoard {
         if (ans) {
             pause = true;
         }
+        ball.increaseSpeed();
         return ans;
     }
 

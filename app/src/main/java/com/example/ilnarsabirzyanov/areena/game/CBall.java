@@ -13,7 +13,7 @@ public class CBall {
     int p;
     CBall(double mX, double mY, double rad) {
         Random gen = new Random();
-        c = new Point(gen.nextInt((int)mX), gen.nextInt((int)mX));
+        c = new Point(GameUtils.RAND_FRAME_W  + gen.nextInt((int)mX - GameUtils.RAND_FRAME_W * 2), GameUtils.RAND_FRAME_W + gen.nextInt((int)mY - GameUtils.RAND_FRAME_W * 2));
         r = rad;
         p = 10;
     }

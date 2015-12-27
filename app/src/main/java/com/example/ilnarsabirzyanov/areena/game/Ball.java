@@ -19,6 +19,13 @@ public class Ball {
         r = 20;
         setDiff(diff);
     }
+
+    void increaseSpeed() {
+        double k = 1 / speed;
+        speed += acs;
+        k *= speed;
+        v.mul(k);
+    }
     void setDiff(int diff) {
         switch (diff) {
             case 0:
@@ -27,15 +34,15 @@ public class Ball {
                 break;
             case 1:
                 speed = 2;
-                acs = 0.1;
+                acs = 0.001;
                 break;
             case 2:
-                speed = 4;
-                acs = 0.2;
+                speed = 3;
+                acs = 0.002;
                 break;
             default:
-                speed = 8;
-                acs = 0.4;
+                speed = 4;
+                acs = 0.004;
         }
         a = new Point(acs, 0);
         v = new Point(speed, 0);
