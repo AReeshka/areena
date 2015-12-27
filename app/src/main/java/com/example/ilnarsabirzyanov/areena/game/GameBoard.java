@@ -118,7 +118,7 @@ public class GameBoard {
     }
 
     boolean checkGameOver() {
-        return ((ball.c.x < 0) || (ball.c.y < 0) || (ball.c.x > sizeX) || (ball.c.y > sizeY));
+        return ((ball.c.x < -GameUtils.RAND_FRAME_W) || (ball.c.y < -GameUtils.RAND_FRAME_W) || (ball.c.x > sizeX + GameUtils.RAND_FRAME_W) || (ball.c.y > sizeY + GameUtils.RAND_FRAME_W));
     }
 
     int checkPoints() {
@@ -137,22 +137,18 @@ public class GameBoard {
     }
 
     void calculateBall(int time) {
-        //ball = lastTrace.calc(ball);
         ball.e = ball.v;
         while (!ball.e.equals(new Point(0, 0))) {
-            Point p1 = ball.c;
-            Point p2 = ball.c.add(ball.e);
             Point p3 ;
             Point p4;
             Point pa1 = null, pa2 = null;
-            Point param = null;
             double t = -1;
             int j = -1;
             if (lastTrace.points.size() >= 2) {
                 p3 = lastTrace.points.get(0).point;
                 for (int i = 1; i < lastTrace.points.size(); i++) {
                     p4 = lastTrace.points.get(i).point;
-                    double tmp = GameUtils.getTme(p1, p2, p3, p4, ball.r + GameUtils.w);
+                    double tmp = GameUtils.getTme(ball, p3, p4, ball.r + GameUtils.w);
                     if (tmp <= 1) {
                         if (t == -1) {
                             pa1 = p3;
@@ -177,7 +173,7 @@ public class GameBoard {
                     p3 = trace.points.get(0).point;
                     for (int i = 1; i < trace.points.size(); i++) {
                         p4 = trace.points.get(i).point;
-                        double tmp = GameUtils.getTme(p1, p2, p3, p4, ball.r + GameUtils.w);
+                        double tmp = GameUtils.getTme(ball, p3, p4, ball.r + GameUtils.w);
                         if (tmp <= 1) {
                             if (t == -1) {
                                 pa1 = p3;

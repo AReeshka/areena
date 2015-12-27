@@ -24,9 +24,9 @@ public class Point {
         return ans;
     }
     Point sub(Point p) {
-        Point ans = new Point(p);
-        ans.x -= x;
-        ans.y -= y;
+        Point ans = new Point(this);
+        ans.x -= p.x;
+        ans.y -= p.y;
         return ans;
     }
     void neg() {

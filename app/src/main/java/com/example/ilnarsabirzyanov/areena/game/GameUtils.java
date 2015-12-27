@@ -14,7 +14,7 @@ import com.example.ilnarsabirzyanov.areena.GameView;
 public class GameUtils {
     public static double EPS = 0.000001;
     public static double FPS = 60;
-    public static double w = 0;
+    public static double w = 1;
     public static int RAND_FRAME_W = 90;
     public static void drawTrace(Canvas canvas, Trace trace) {
         Paint paint =  new Paint();
@@ -67,14 +67,15 @@ public class GameUtils {
         Point abV = b.sub(a);
         Point acV = c.sub(a);
         double angle = 1 - abV.cos2(acV);
-        return Math.sqrt(angle*acV.mod2());
+        angle = Math.sqrt(angle*acV.mod2());
+        return angle;
     }
 
     public static Ball bounce(Ball ball, Point a, Point b, double t) {
         ball.c = ball.c.add(ball.e.mul(t));
         ball.e = ball.e.mul(1 - t);
-        if (t > 1) {
-            t = 1;
+        if (t < 0) {
+            t *= 1;
         }
         double d = dist(a, b, ball.c);
         double cd = checkedDist(a, b, ball.c, d);
@@ -114,7 +115,9 @@ public class GameUtils {
 
     //  ab - ball's traectory; cd border
     public static int MAXTIME = 99999999;
-    public static double getTme(Point a, Point b, Point c, Point d, double rad) {
+    public static double getTme(Ball ball, Point c, Point d, double rad) {
+        Point a = ball.c;
+        Point b = ball.c.add(ball.e);
         if (getDist(a, b, c) < rad) {
             rad *= 1;
         }
@@ -130,14 +133,20 @@ public class GameUtils {
         Point per = l1.per(l2); //
         double t = MAXTIME;
         double t1 = per.sub(a).x / b.sub(a).x;
-        if ((t1 >= 0) && (c.sub(per).scal(d.sub(per)) <= 0)) {
+        if (a.x >= 962) {
+            t*=1;
+        }
+        if ((t1 >= 0)) {
             double sin = Math.sqrt(1 - a.sub(per).cos2(c.sub(per)));
             double l = Math.sqrt(a.sub(per).mod2()) - rad / sin;
             Point dl = b.sub(a);
-            dl = dl.mul(l / Math.sqrt(dl.mod2()));
+            dl = dl.mul(l /ball.speed);
             Point cc = a.add(dl);
             if (getDist(c, d, cc) - EPS < rad) {
-                t = l / Math.sqrt(b.sub(a).mod2());
+                t = l / ball.speed;
+            }
+            if (t < 0) {
+                t*= 1;
             }
         }
         if (t < 1) {

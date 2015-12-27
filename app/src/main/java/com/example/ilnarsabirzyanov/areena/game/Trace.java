@@ -109,7 +109,7 @@ public class Trace {
             int j = -1;
             for (int i = 1; i < points.size(); i++) {
                 p4 = points.get(i).point;
-                double tmp = GameUtils.getTme(p1, p2, p3, p4, ball.r + GameUtils.w);
+                double tmp = GameUtils.getTme(ball, p3, p4, ball.r + GameUtils.w);
                 if (tmp <= 1) {
                     if (t == -1) {
                         pa1 = p3;
