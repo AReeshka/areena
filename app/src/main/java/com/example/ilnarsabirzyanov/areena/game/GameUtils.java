@@ -72,13 +72,14 @@ public class GameUtils {
     }
 
     public static Ball bounce(Ball ball, Point a, Point b, double t) {
-        ball.c = ball.c.add(ball.e.mul(t));
-        ball.e = ball.e.mul(1 - t);
         if (t < 0) {
             t *= 1;
         }
+        ball.c = ball.c.add(ball.e.mul(t));
+        ball.e = ball.e.mul(1 - t);
+
         double d = dist(a, b, ball.c);
-        double cd = checkedDist(a, b, ball.c, d);
+        double cd = getDist(a, b, ball.c);
         if (d != cd) {
             ball.e.neg();
             ball.v.neg();
@@ -102,7 +103,10 @@ public class GameUtils {
         }
         ball.e = ball.e.add(addE);
         ball.v = ball.v.add(addV);
-        if (ball.v.mod2() > 1) {
+        if (ball.e.mod2() < GameUtils.EPS) {
+            ball.e = new Point(0, 0);
+        }
+        if (ball.v.mod2() > ball.speed* ball.speed) {
             //k *= ball.speed;
             ball.v = ball.v.mul(ball.speed/Math.sqrt(ball.v.mod2()));
         }
@@ -133,13 +137,10 @@ public class GameUtils {
         Point per = l1.per(l2); //
         double t = MAXTIME;
         double t1 = per.sub(a).x / b.sub(a).x;
-        if (a.x >= 962) {
-            t*=1;
-        }
         if ((t1 >= 0)) {
             double sin = Math.sqrt(1 - a.sub(per).cos2(c.sub(per)));
             double l = Math.sqrt(a.sub(per).mod2()) - rad / sin;
-            Point dl = b.sub(a);
+            Point dl = ball.v;
             dl = dl.mul(l /ball.speed);
             Point cc = a.add(dl);
             if (getDist(c, d, cc) - EPS < rad) {
@@ -153,18 +154,18 @@ public class GameUtils {
             t *= 1;
         }
         double t2 = (Math.sqrt(ad.mod2()) - rad)/(ad.scal(ab) / Math.sqrt(ad.mod2()));
-        if (t2 > 0) {
-            t2 = Math.sqrt(t2);
+        if (getDist(a, b, d) < rad) {
+            //t2 = Math.sqrt(t2);
             t = Math.min(t, t2);
         }
         double t3 = (Math.sqrt(ac.mod2()) - rad)/(ac.scal(ab) / Math.sqrt(ac.mod2()));
         if (t3 > 0) {
-            t3 = Math.sqrt(t3);
+            //t3 = Math.sqrt(t3);
             t = Math.min(t, t3);
-        }/*
-        if ((t <= 0) || (getDist(c, d, b) > rad)) {
-            return MAXTIME;
-        }*/
+        }
+        if ((t < 0)) {
+            t *= 1;
+        }
 
         return t;
     }

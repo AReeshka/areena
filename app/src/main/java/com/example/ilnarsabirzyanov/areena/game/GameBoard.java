@@ -83,6 +83,7 @@ public class GameBoard {
     }
 
     public void addPoint(double x, double y, double t) {
+        if (GameUtils.distP(new Point(x, y), ball.c) > ball.r + GameUtils.w + GameUtils.EPS)
         lastTrace.addPoint(x, y, t + TIMEOUT);
         prevTime = t;/*
         if ((ball.c.x < 0) || (ball.c.y < 0) || (ball.c.x > sizeX) || (ball.c.y > sizeY)) {
@@ -138,7 +139,9 @@ public class GameBoard {
 
     void calculateBall(int time) {
         ball.e = ball.v;
+        int g = 0;
         while (!ball.e.equals(new Point(0, 0))) {
+            g++;
             Point p3 ;
             Point p4;
             Point pa1 = null, pa2 = null;
@@ -198,6 +201,9 @@ public class GameBoard {
                 return;
             } else {
                 ball = GameUtils.bounce(ball, pa1, pa2, t);
+            }
+            if (g == 100) {
+                break;
             }
         }
     }

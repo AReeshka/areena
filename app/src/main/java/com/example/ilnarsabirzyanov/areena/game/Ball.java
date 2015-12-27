@@ -24,7 +24,7 @@ public class Ball {
         double k = 1 / speed;
         speed += acs;
         k *= speed;
-        v.mul(k);
+        v = v.mul(k);
     }
     void setDiff(int diff) {
         switch (diff) {
