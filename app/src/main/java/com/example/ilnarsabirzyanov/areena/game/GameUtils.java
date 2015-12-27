@@ -71,8 +71,12 @@ public class GameUtils {
     }
 
     public static Ball bounce(Ball ball, Point a, Point b, double t) {
-        ball.c = ball.c.add(ball.e.mul(t));
-        ball.e = ball.e.mul(1 - t);
+        boolean tmp = true;
+        if (getDist(a, b, ball.c) > ball.r + w) {
+            ball.c = ball.c.add(ball.e.mul(t));
+            ball.e = ball.e.mul(1 - t);
+            tmp = false;
+        }
         if (t > 1) {
             t = 1;
         }
@@ -101,6 +105,10 @@ public class GameUtils {
         }
         ball.e = ball.e.add(addE);
         ball.v = ball.v.add(addV);
+        if (tmp) {
+            ball.c = ball.c.add(ball.e.mul(t));
+            ball.e = ball.e.mul(1 - t);
+        }
         if (ball.v.mod2() > 1) {
             //k *= ball.speed;
             ball.v = ball.v.mul(ball.speed/Math.sqrt(ball.v.mod2()));
@@ -112,8 +120,6 @@ public class GameUtils {
         return Math.sqrt(a.sub(b).mod2());
     }
 
-    //  ab - ball's traectory; cd border
-    public static int MAXTIME = 99999999;
     public static double getTme(Point a, Point b, Point c, Point d, double rad) {
         Point ad = d.sub(a);
         Point ab = b.sub(a);
@@ -122,19 +128,24 @@ public class GameUtils {
         Line l1 = new Line(a, b);
         Line l2 = new Line(c, d);
         if (l1.a * l2.b == l2.a * l1.b) {// if lines are parallel
-            return MAXTIME;
+            return 9999999;
         }
-        Point per = l1.per(l2); //
-        double t = MAXTIME;
+        Point per = l1.per(l2);
+        double t = 9999999;
         double t1 = per.sub(a).x / b.sub(a).x;
-        if ((t1 >= 0) && (c.sub(per).scal(d.sub(per)) < 0)) {
-            double sin = Math.sqrt(1 - a.sub(per).cos2(c.sub(per)));
-            double l = Math.sqrt(a.sub(per).mod2()) - rad / sin;
-            Point dl = b.sub(a);
-            dl = dl.mul(l / Math.sqrt(dl.mod2()));
-            Point cc = a.add(dl);
-            if (getDist(c, d, cc) - EPS < rad) {
-                t = l / Math.sqrt(b.sub(a).mod2());
+        if ((t1 > 0) && (c.sub(per).scal(d.sub(per)) < 0)) {
+            Point addV = new Point(cd.y, -cd.x);
+            double k = dist(c, d, a);
+            k *= k;
+            k /= addV.mod2();
+            addV = addV.mul(Math.sqrt(k));
+            t = Math.abs((Math.sqrt(addV.mod2()) - rad) / (addV.scal(ab) / Math.sqrt(addV.mod2())));
+            Point cc = a.add(ab.mul(t));
+            if (cd.scal(cc.sub(c)) * cd.scal(cc.sub(d)) >= 0) {
+                t = 999999;
+            }
+            if (t < 1) {
+                t *= 1.0;
             }
         }
         if (t < 1) {
@@ -151,7 +162,7 @@ public class GameUtils {
             t = Math.min(t, t3);
         }
         if ((t <= 0) || (getDist(c, d, b) > rad)) {
-            return MAXTIME;
+            return 99999;
         }
 
         return t;
