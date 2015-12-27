@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                intent.putExtra("difficulty", difficulty.ordinal());
+                intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
             }
         });

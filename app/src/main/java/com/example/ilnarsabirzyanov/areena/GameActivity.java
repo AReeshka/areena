@@ -17,9 +17,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         GameView view = (GameView)findViewById(R.id.game);
-        int t = intent.getIntExtra("difficulty", 0);
-        view.difficulty = Difficulty.values()[t];
-        int tt =0;
+        view.difficulty = (Difficulty)intent.getSerializableExtra("difficulty");
         BackgroundMusic.play();
     }
 
